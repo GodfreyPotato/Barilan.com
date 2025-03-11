@@ -13,8 +13,6 @@ class Lugar extends World with HasGameReference {
 
   late Player player;
 
-  final double gravity = 0;
-
   Vector2 get size => (parent as FlameGame).size;
 
   /// Where the ground is located in the world and things should stop falling.

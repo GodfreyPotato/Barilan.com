@@ -29,7 +29,6 @@ class _GameScreenState extends State<GameScreen> {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-
                       Provider.of<Playerdata>(context, listen: false).reset();
                     },
                     child: Icon(Icons.play_arrow),

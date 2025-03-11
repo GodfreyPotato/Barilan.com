@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:barilan/flame_game/barilGame.dart';
 import 'package:barilan/flame_game/component/bullet.dart';
-import 'package:barilan/flame_game/component/zombie.dart';
 import 'package:barilan/flame_game/effects/jump_effect.dart';
 import 'package:barilan/flame_game/world.dart';
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:provider/provider.dart';
 
 //player state = ung mga state ng sprite like walking, flying, etc.
 class Player extends SpriteAnimationGroupComponent<PlayerState>
@@ -104,66 +102,40 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
     // TODO: implement update
     super.update(dt);
     fireToIdle.update(dt);
-    //pag nag jump
-    if (inAir) {
-      current = PlayerState.jumping;
-      _gravityVelocity += world.gravity * dt;
-      position.y += _gravityVelocity;
-      if (isMoving) {
-        if (direction == 'left') {
-          position.x += player_speed.x;
-        } else {
-          position.x -= player_speed.x;
-        }
-      } else {
-        direction = "";
-      }
-      if (isFalling) {
-        current = PlayerState.falling;
-        if (isMoving) {
-          if (direction == 'left') {
-            position.x += player_speed.x;
-          } else {
-            position.x -= player_speed.x;
-          }
-        } else {
-          direction = "";
-        }
-      }
-    } else {
-      if (isFiring) {
-        current = PlayerState.firing;
-        if (isMoving) {
-          current = PlayerState.runfiring;
-          if (direction == 'left') {
-            position.x += player_speed.x;
-          } else {
-            position.x -= player_speed.x;
-          }
-        } else {
-          direction = "";
-          current = PlayerState.idle;
-        }
-      } else {
-        //controls
-        if (isMoving) {
-          current = PlayerState.running;
-          if (direction == 'left') {
-            position.x += player_speed.x;
-          } else {
-            position.x -= player_speed.x;
-          }
-        } else {
-          direction = "";
-          current = PlayerState.idle;
-        }
-      }
-    }
-
     //dead
     if (pd.health <= 0) {
       removeFromParent();
       game.overlays.add('gameOver');
+    }
+    //pag nag jump
+    if (inAir) {
+      current = isFalling ? PlayerState.falling : PlayerState.jumping;
+      _gravityVelocity += dt;
+      position.y += _gravityVelocity;
+
+      if (isMoving) {
+        position.x += direction == 'left' ? player_speed.x : -player_speed.x;
+      } else {
+        direction = "";
+      }
+    } else {
+      if (isFiring) {
+        current = isMoving ? PlayerState.runfiring : PlayerState.firing;
+        position.x +=
+            isMoving
+                ? (direction == 'left' ? player_speed.x : -player_speed.x)
+                : 0;
+      } else {
+        current = isMoving ? PlayerState.running : PlayerState.idle;
+        position.x +=
+            isMoving
+                ? (direction == 'left' ? player_speed.x : -player_speed.x)
+                : 0;
+      }
+
+      if (!isMoving) {
+        direction = "";
+      }
     }
   }
 
