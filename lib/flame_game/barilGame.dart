@@ -13,7 +13,11 @@ class BarilGame extends FlameGame<Lugar> with HasCollisionDetection {
     : super(
         //need para ma reference ung world to flamegame
         world: Lugar(player: player),
-        camera: CameraComponent.withFixedResolution(width: 1600, height: 720),
+        camera: CameraComponent.withFixedResolution(
+          width: 1600,
+          height: 720,
+          backdrop: Background(player: player),
+        ),
       );
 
   late Sprite RightBut;

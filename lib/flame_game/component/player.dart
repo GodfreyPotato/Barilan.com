@@ -101,8 +101,14 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   @override
   void update(double dt) {
     // TODO: implement update
+    print("player pos $position this is the world size ${world.size.x}");
     super.update(dt);
-    print("Position of the player ${position}");
+    if (position.x >= world.size.x) {
+      position.x = position.x - 30;
+    } else if (position.x < 0) {
+      position.x = position.x + 30;
+    }
+
     fireToIdle.update(dt);
     //dead
     if (pd.health <= 0) {

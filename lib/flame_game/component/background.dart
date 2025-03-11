@@ -31,22 +31,20 @@ class Background extends ParallaxComponent with HasWorldReference<Lugar> {
       repeat: ImageRepeat.repeatX,
     );
     priority = -1;
-    position = Vector2(0, -350);
   }
 
   @override
   void update(double dt) {
-    print("POSITION OF BG ${position}");
     super.update(dt);
     // Move background based on player's movement
-    // if (player.isMoving) {
-    //   if (player.direction == 'left') {
-    //     parallax?.baseVelocity.x = player.player_speed.x;
-    //   } else {
-    //     parallax?.baseVelocity.x = -player.player_speed.x;
-    //   }
-    // } else {
-    //   parallax?.baseVelocity.x = 0;
-    // }
+    if (player.isMoving) {
+      if (player.direction == 'left') {
+        parallax?.baseVelocity.x = player.player_speed.x;
+      } else {
+        parallax?.baseVelocity.x = -player.player_speed.x;
+      }
+    } else {
+      parallax?.baseVelocity.x = 0;
+    }
   }
 }
