@@ -29,10 +29,10 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
 
     if (direction == "left") {
       scale.x = 1;
-      speed = (-1) * (Random().nextInt(10));
+      speed = (-1) * (Random().nextInt(10)) - 1;
     } else {
       scale.x = -1;
-      speed = Random().nextInt(10);
+      speed = Random().nextInt(10) + 1;
     }
     animations = {
       //running
@@ -77,11 +77,11 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
     // TODO: implement update
     super.update(dt);
     //controls
-    if (health == 0) {
+    if (health <= 0) {
       isDead = true;
     }
     if (isDead) {
-      position.x += 0;
+      position.x = position.x;
       current = PlayerState.dead;
       Future.delayed(Duration(milliseconds: (11 * 0.15 * 1000).toInt()), () {
         removeFromParent();
@@ -102,9 +102,11 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
       }
     }
 
-    if (position.x < (-game.size.x) || position.x > game.size.x) {
+    if ((position.x <= 0 && direction == "right") ||
+        (position.x > world.size.x && direction == "left")) {
       removeFromParent();
     }
+    print("Position of zombies ${position} vs game size ${game.size}");
   }
 
   @override

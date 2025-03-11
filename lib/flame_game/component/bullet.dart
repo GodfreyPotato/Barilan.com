@@ -39,12 +39,13 @@ class Bullet extends SpriteComponent
     super.update(dt);
     if (direction == "left") {
       scale.x = 1;
-      position.x += 10;
+      position.x += 20;
     } else if (direction == "right") {
       scale.x = -1;
-      position.x -= 10;
+      position.x -= 20;
     }
-    if (position.x < (-game.size.x) || position.x > game.size.x) {
+    if ((position.x <= 0) || (position.x >= world.size.x)) {
+      print("$position gone");
       removeFromParent();
     }
   }

@@ -65,7 +65,7 @@ flutter:
     - assets/images/scenery/
     - assets/images/dash/
     - assets/images/cardo/
-    - assets/images/enemies/
+    - assets/images/buttons/
     - assets/images/zombie/
     - assets/musics/
   #   - images/a_dot_ham.jpeg

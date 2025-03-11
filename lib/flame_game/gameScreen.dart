@@ -1,7 +1,7 @@
 import 'package:barilan/flame_game/barilGame.dart';
 import 'package:barilan/flame_game/component/health.dart';
 import 'package:barilan/flame_game/component/player.dart';
-import 'package:barilan/main.dart';
+
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -37,11 +37,13 @@ class _GameScreenState extends State<GameScreen> {
                 ],
               ),
           'gameOver':
-              (context, game) => Container(
-                width: 200,
-                height: 200,
-                color: Colors.red,
-                child: Center(child: Column(children: [Text("Game Over")])),
+              (context, game) => Center(
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  color: Colors.red,
+                  child: Center(child: Text("Game Over")),
+                ),
               ),
         },
       ),

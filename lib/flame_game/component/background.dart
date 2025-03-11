@@ -1,12 +1,13 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:barilan/flame_game/component/player.dart';
+import 'package:barilan/flame_game/world.dart';
 import 'package:flame/components.dart';
 import 'package:flame/parallax.dart';
+import 'package:flutter/rendering.dart';
 
-class Background extends ParallaxComponent {
+class Background extends ParallaxComponent with HasWorldReference<Lugar> {
   Background({required this.player});
 
   Player player;
@@ -21,39 +22,31 @@ class Background extends ParallaxComponent {
       ParallaxImageData('scenery/ground.png'),
     ];
 
-    // The base velocity sets the speed of the layer the farthest to the back.
-    // Since the speed in our game is defined as the speed of the layer in the
-    // front, where the player is, we have to calculate what speed the layer in
-    // the back should have and then the parallax will take care of setting the
-    // speeds for the rest of the layers.
-
-    // The multiplier delta is used by the parallax to multiply the speed of
-    // each layer compared to the last, starting from the back. Since we only
-    // want our layers to move in the X-axis, we multiply by something larger
-    // than 1.0 here so that the speed of each layer is higher the closer to the
-    // screen it is.
     final velocityMultiplierDelta = Vector2(2, 0.0);
 
-    parallax = await game.loadParallax(
+    parallax = await Parallax.load(
       layers,
       velocityMultiplierDelta: velocityMultiplierDelta,
       filterQuality: FilterQuality.none,
+      repeat: ImageRepeat.repeatX,
     );
+    priority = -1;
+    position = Vector2(0, -350);
   }
 
   @override
   void update(double dt) {
+    print("POSITION OF BG ${position}");
     super.update(dt);
-
     // Move background based on player's movement
-    if (player.isMoving) {
-      if (player.direction == 'left') {
-        parallax?.baseVelocity.x = player.player_speed.x;
-      } else {
-        parallax?.baseVelocity.x = -player.player_speed.x;
-      }
-    } else {
-      parallax?.baseVelocity.x = 0;
-    }
+    // if (player.isMoving) {
+    //   if (player.direction == 'left') {
+    //     parallax?.baseVelocity.x = player.player_speed.x;
+    //   } else {
+    //     parallax?.baseVelocity.x = -player.player_speed.x;
+    //   }
+    // } else {
+    //   parallax?.baseVelocity.x = 0;
+    // }
   }
 }

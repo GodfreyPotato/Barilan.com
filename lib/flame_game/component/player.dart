@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:barilan/flame_game/barilGame.dart';
 import 'package:barilan/flame_game/component/bullet.dart';
+import 'package:barilan/flame_game/controls.dart';
 import 'package:barilan/flame_game/effects/jump_effect.dart';
 import 'package:barilan/flame_game/world.dart';
 import 'package:barilan/model/playerdata.dart';
@@ -30,7 +31,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
-    scale.x = -1;
+
     animations = {
       //running
       PlayerState.running: await game.loadSpriteAnimation(
@@ -101,6 +102,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
+    print("Position of the player ${position}");
     fireToIdle.update(dt);
     //dead
     if (pd.health <= 0) {
@@ -176,6 +178,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   }
 
   void startRun(String direction) {
+    print("world size ${world.size}");
     isFiring = false;
     if (direction == 'left') {
       scale.x = 1;
