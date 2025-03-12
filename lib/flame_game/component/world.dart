@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'dart:async';
 import 'package:barilan/flame_game/barilGame.dart';
-import 'package:barilan/flame_game/component/background.dart';
 import 'package:barilan/flame_game/component/barrier.dart';
 import 'package:barilan/flame_game/component/zombie.dart';
 import 'package:barilan/flame_game/component/player.dart';
@@ -43,8 +42,8 @@ class Lugar extends World with HasGameReference<BarilGame> {
   FutureOr<void> onLoad() {
     // TODO: implement onLoad
 
-    add(Barrier(pos: Vector2(size.x, 141)));
-    add(Barrier(pos: Vector2(0 - 400, 141)));
+    add(Barrier(pos: Vector2(size.x, -120)));
+    add(Barrier(pos: Vector2(0 - 750, -120)));
     player.x = size.x / 2;
     add(player);
     //spawns

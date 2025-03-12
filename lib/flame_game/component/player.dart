@@ -29,7 +29,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   bool isFiring = false;
   late Timer fireToIdle;
   bool inBarrier = false;
-
+  bool isBitten = false;
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
@@ -103,7 +103,6 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   @override
   void update(double dt) {
     // TODO: implement update
-    print("player pos $position this is the world size ${world.size.x}");
     super.update(dt);
     if (position.x >= world.size.x) {
       position.x = position.x - 30;

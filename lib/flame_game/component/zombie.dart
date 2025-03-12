@@ -16,9 +16,7 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
         HasWorldReference<Lugar>,
         HasGameReference<BarilGame> {
   Zombie({required this.pd, required this.direction})
-    : super(size: Vector2.all(150), anchor: Anchor.center, priority: 1) {
-    FlameAudio.audioCache.loadAll(["death1.mp3", "death3.mp3", "death2.mp3"]);
-  }
+    : super(size: Vector2.all(150), anchor: Anchor.center, priority: 1);
 
   List soundFX = ["death1.mp3", "death3.mp3", "death2.mp3"];
   late Playerdata pd;
@@ -142,10 +140,14 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
     // TODO: implement onCollision
     super.onCollisionStart(intersectionPoints, other);
 
-    if (!isDead) {
-      if (other is Player) {
+    if (!isDead && other is Player) {
+      if (other.direction != direction) {
+        other.player_speed.x = 0;
         current = PlayerState.attacking;
         isAttacking = true;
+        other.isBitten = true;
+      } else {
+        other.player_speed.x = 10;
       }
     }
   }
@@ -154,10 +156,15 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     // TODO: implement onCollision
     super.onCollision(intersectionPoints, other);
-    if (!isDead) {
-      if (other is Player) {
+
+    if (!isDead && other is Player) {
+      if (other.direction != direction) {
+        other.player_speed.x = 0;
         current = PlayerState.attacking;
         isAttacking = true;
+        other.isBitten = true;
+      } else {
+        other.player_speed.x = 10;
       }
     }
   }
@@ -166,7 +173,10 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
   void onCollisionEnd(PositionComponent other) {
     // TODO: implement onCollisionEnd
     super.onCollisionEnd(other);
-
+    if (other is Player) {
+      other.player_speed.x = 10;
+      other.isBitten = false;
+    }
     current = PlayerState.running;
     isAttacking = false;
   }
