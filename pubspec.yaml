@@ -38,6 +38,7 @@ dependencies:
   just_audio: ^0.9.46
   provider: ^6.1.2
   shared_preferences: ^2.5.2
+  flame_audio: ^2.11.0
 
 dev_dependencies:
   flutter_test:
@@ -73,9 +74,10 @@ flutter:
     - assets/images/cardo/
     - assets/images/buttons/
     - assets/images/zombie/
+    - assets/images/zombie2/
     - assets/musics/
     - assets/bg/
-    - assets/sfx/zombieDead/
+    - assets/audio/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

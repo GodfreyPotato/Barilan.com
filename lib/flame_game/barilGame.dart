@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:barilan/flame_game/component/background.dart';
 import 'package:barilan/flame_game/component/player.dart';
@@ -9,17 +10,17 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 
 class BarilGame extends FlameGame<Lugar> with HasCollisionDetection {
-  BarilGame({required this.player})
+  BarilGame({required this.player, required this.rand})
     : super(
         //need para ma reference ung world to flamegame
         world: Lugar(player: player),
         camera: CameraComponent.withFixedResolution(
           width: 1600,
           height: 720,
-          backdrop: Background(player: player),
+          backdrop: Background(player: player, rand: rand),
         ),
       );
-
+  int rand;
   late Sprite RightBut;
   late Sprite LeftBut;
   late Sprite JumpBut;
@@ -27,7 +28,13 @@ class BarilGame extends FlameGame<Lugar> with HasCollisionDetection {
   Player player;
   @override
   FutureOr<void> onLoad() async {
-    // world.groundLevel += 90; scene 4
+    if (rand == 0) {
+    } else if (rand == 2) {
+      world.groundLevel += 80;
+    } else if (rand == 3) {
+      world.groundLevel += 80;
+    }
+    player.y -= 400;
     RightBut = await Sprite.load('buttons/FB.png');
     LeftBut = await Sprite.load('buttons/BB.png');
     FireBut = await Sprite.load('buttons/Fire.png');

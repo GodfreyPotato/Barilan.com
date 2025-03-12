@@ -5,9 +5,12 @@ import 'package:barilan/flame_game/component/background.dart';
 import 'package:barilan/flame_game/component/barrier.dart';
 import 'package:barilan/flame_game/component/zombie.dart';
 import 'package:barilan/flame_game/component/player.dart';
+import 'package:barilan/flame_game/component/zombie2.dart';
+
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class Lugar extends World with HasGameReference<BarilGame> {
   Lugar({required this.player}) {
@@ -16,7 +19,7 @@ class Lugar extends World with HasGameReference<BarilGame> {
 
   late Player player;
   late Vector2 _size;
-
+  bool superMonster = false;
   Vector2 get size => _size;
 
   /// Setter to update world size dynamically
@@ -39,7 +42,7 @@ class Lugar extends World with HasGameReference<BarilGame> {
   @override
   FutureOr<void> onLoad() {
     // TODO: implement onLoad
-    
+
     add(Barrier(pos: Vector2(size.x, 141)));
     add(Barrier(pos: Vector2(0 - 400, 141)));
     player.x = size.x / 2;
@@ -53,7 +56,7 @@ class Lugar extends World with HasGameReference<BarilGame> {
           Vector2(Random().nextDouble() * size.x, groundLevel - 80),
         ),
         factory: (_) => Zombie(pd: player.pd, direction: "right"),
-        period: 3,
+        period: 5,
       ),
     );
     add(
@@ -63,8 +66,50 @@ class Lugar extends World with HasGameReference<BarilGame> {
           Vector2(Random().nextDouble() * size.x, groundLevel - 80),
         ),
         factory: (_) => Zombie(pd: player.pd, direction: "left"),
-        period: 2,
+        period: 5,
       ),
     );
+  }
+
+  void addMonster() {
+    if (!superMonster) {
+      game.overlays.add("warning");
+      Future.delayed(Duration(seconds: 3), () {
+        game.overlays.remove("warning");
+      });
+
+      FlameAudio.play("warning.mp3");
+      add(
+        SpawnComponent(
+          area: Rectangle.fromPoints(
+            Vector2(size.x, groundLevel - 80),
+            Vector2(size.x, groundLevel - 80),
+          ),
+          factory: (_) => Zombie2(pd: player.pd, direction: "right"),
+          period: 15,
+        ),
+      );
+      add(
+        SpawnComponent(
+          area: Rectangle.fromPoints(
+            Vector2(0, groundLevel - 80),
+            Vector2(0, groundLevel - 80),
+          ),
+          factory: (_) => Zombie2(pd: player.pd, direction: "left"),
+          period: 20,
+        ),
+      );
+      superMonster = true;
+    }
+  }
+
+  @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+
+    if (player.pd.currentScore >= 15) {
+      addMonster();
+    }
   }
 }

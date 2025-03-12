@@ -1,8 +1,11 @@
+import 'dart:math';
+
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Playerdata extends ChangeNotifier {
-  int health = 20;
+  int health = 5;
   int bullet = 10;
   late SharedPreferences prefs;
   int currentScore = 0;
@@ -22,8 +25,13 @@ class Playerdata extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateSuperMonster() {
+    health -= 4;
+    notifyListeners();
+  }
+
   void reset() async {
-    health = 20;
+    health = 5;
     bullet = 10;
     currentScore = 0;
     await getHighScore();
@@ -33,10 +41,15 @@ class Playerdata extends ChangeNotifier {
   void updateBullet() async {
     bullet += 3;
     currentScore += 1;
-    notifyListeners();
+    if (Random().nextInt(100) < 10) {
+      FlameAudio.play("addhealth.mp3");
+      health += 1;
+    }
+
     if (currentScore > highscore) {
       await prefs.setInt("highscore", currentScore);
     }
+    notifyListeners();
   }
 
   void fireBullet() {

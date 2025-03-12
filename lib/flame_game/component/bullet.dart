@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:barilan/flame_game/barilGame.dart';
-import 'package:barilan/flame_game/component/player.dart';
 import 'package:barilan/flame_game/component/zombie.dart';
-import 'package:barilan/flame_game/effects/jump_effect.dart';
+import 'package:barilan/flame_game/component/zombie2.dart';
 import 'package:barilan/flame_game/component/world.dart';
-import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
@@ -25,11 +23,12 @@ class Bullet extends SpriteComponent
       );
   String direction;
   Vector2 pos;
-
+  late Vector2 startingPosition;
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
-    sprite = await Sprite.load('dash/gunshot.png');
+    startingPosition = pos;
+    sprite = await Sprite.load('cardo/gunshot.png');
     add(CircleHitbox());
   }
 
@@ -44,8 +43,8 @@ class Bullet extends SpriteComponent
       scale.x = -1;
       position.x -= 20;
     }
-    if ((position.x <= 0) || (position.x >= world.size.x)) {
-      print("$position gone");
+    if ((startingPosition.x - position.x) <= -(game.size.x / 2) ||
+        (position.x - startingPosition.x) <= -(game.size.x / 2)) {
       removeFromParent();
     }
   }
@@ -59,6 +58,10 @@ class Bullet extends SpriteComponent
     super.onCollisionStart(intersectionPoints, other);
 
     if (other is Zombie) {
+      other.health -= 1;
+      removeFromParent();
+    }
+    if (other is Zombie2) {
       other.health -= 1;
       removeFromParent();
     }

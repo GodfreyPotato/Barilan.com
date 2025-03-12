@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:barilan/flame_game/barilGame.dart';
 import 'package:barilan/flame_game/component/healthandbulet.dart';
 import 'package:barilan/flame_game/component/player.dart';
 
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,11 +19,19 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   @override
+  void dispose() {
+    // TODO: implement dispose
+    FlameAudio.audioCache.clearAll();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GameWidget<BarilGame>(
         game: BarilGame(
           player: Player(pd: Provider.of<Playerdata>(context, listen: false)),
+          rand: Random().nextInt(5),
         ),
         overlayBuilderMap: {
           'backBut':
@@ -163,6 +174,18 @@ class _GameScreenState extends State<GameScreen> {
                         ],
                       ),
                     ],
+                  ),
+                ),
+              ),
+          "warning":
+              (context, game) => Center(
+                child: Container(
+                  height: 200,
+                  width: 200,
+                  color: Colors.red,
+                  child: Text(
+                    "Warning! Lalabas na ang manananggal!",
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                   ),
                 ),
               ),

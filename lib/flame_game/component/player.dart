@@ -8,6 +8,7 @@ import 'package:barilan/flame_game/component/world.dart';
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 //player state = ung mga state ng sprite like walking, flying, etc.
 class Player extends SpriteAnimationGroupComponent<PlayerState>
@@ -180,6 +181,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   void fire() async {
     if (pd.bullet > 0) {
       if (!inAir) {
+        FlameAudio.play("gunshot.mp3");
         isFiring = true;
         position.x = position.x;
         var bullet = Bullet(

@@ -10,17 +10,17 @@ import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 //player state = ung mga state ng sprite like walking, flying, etc.
-class Zombie extends SpriteAnimationGroupComponent<PlayerState>
+class Zombie2 extends SpriteAnimationGroupComponent<PlayerState>
     with
         CollisionCallbacks,
         HasWorldReference<Lugar>,
         HasGameReference<BarilGame> {
-  Zombie({required this.pd, required this.direction})
-    : super(size: Vector2.all(150), anchor: Anchor.center, priority: 1) {
-    FlameAudio.audioCache.loadAll(["death1.mp3", "death3.mp3", "death2.mp3"]);
+  Zombie2({required this.pd, required this.direction})
+    : super(size: Vector2.all(300), anchor: Anchor.center, priority: 1) {
+    FlameAudio.audioCache.load("death4.mp3");
+    FlameAudio.play("manananggalWarning.mp3");
   }
 
-  List soundFX = ["death1.mp3", "death3.mp3", "death2.mp3"];
   late Playerdata pd;
   bool isAttacking = false;
   late Timer attackTimer;
@@ -36,45 +36,46 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
 
     if (direction == "left") {
       scale.x = 1;
-      speed = (-1) * (Random().nextInt(10)) - 1;
+      speed = -50;
     } else {
       scale.x = -1;
-      speed = Random().nextInt(10) + 1;
+      speed = 50;
     }
     animations = {
       //running
       PlayerState.running: await game.loadSpriteAnimation(
-        'zombie/zombie_run.png',
+        'zombie2/Run.png',
         SpriteAnimationData.sequenced(
-          amount: 8,
-          textureSize: Vector2(24, 27),
+          amount: 7,
+          textureSize: Vector2(96, 96),
           stepTime: 0.15,
         ),
       ),
       PlayerState.attacking: await game.loadSpriteAnimation(
-        'zombie/zombie_atk.png',
+        'zombie2/Attack.png',
         SpriteAnimationData.sequenced(
-          amount: 7,
-          textureSize: Vector2(30, 29),
+          amount: 4,
+          textureSize: Vector2(96, 96),
           stepTime: 0.15,
         ),
       ),
       PlayerState.dead: await game.loadSpriteAnimation(
-        'zombie/zombie_dead.png',
+        'zombie2/Dead.png',
         SpriteAnimationData.sequenced(
-          amount: 11,
-          textureSize: Vector2(33, 30),
+          amount: 5,
+          textureSize: Vector2(96, 96),
           stepTime: 0.15,
         ),
       ),
     };
+
     current = PlayerState.running;
 
     add(CircleHitbox());
     attackTimer = Timer(
       1,
       onTick: () {
-        pd.updateHealth();
+        pd.updateSuperMonster();
       },
     );
   }
@@ -89,7 +90,7 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
 
   void playSFX() async {
     if (SFX) {
-      FlameAudio.play(soundFX[Random().nextInt(soundFX.length)]);
+      FlameAudio.play("death4.mp3");
       SFX = false;
     }
   }
@@ -107,7 +108,7 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
     if (isDead) {
       position.x = position.x;
       current = PlayerState.dead;
-      Future.delayed(Duration(milliseconds: (11 * 0.15 * 1000).toInt()), () {
+      Future.delayed(Duration(milliseconds: (5 * 0.15 * 1000).toInt()), () {
         addBullet();
         removeFromParent();
       });
