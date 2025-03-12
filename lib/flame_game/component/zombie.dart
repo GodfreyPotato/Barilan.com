@@ -3,10 +3,11 @@ import 'dart:math';
 
 import 'package:barilan/flame_game/barilGame.dart';
 import 'package:barilan/flame_game/component/player.dart';
-import 'package:barilan/flame_game/world.dart';
+import 'package:barilan/flame_game/component/world.dart';
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:just_audio/just_audio.dart';
 
 //player state = ung mga state ng sprite like walking, flying, etc.
 class Zombie extends SpriteAnimationGroupComponent<PlayerState>
@@ -15,7 +16,18 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
         HasWorldReference<Lugar>,
         HasGameReference<BarilGame> {
   Zombie({required this.pd, required this.direction})
-    : super(size: Vector2.all(150), anchor: Anchor.center, priority: 1);
+    : super(size: Vector2.all(150), anchor: Anchor.center, priority: 1) {
+    List SoundFX = [
+      "assets/sfx/zombieDead/death1.mp3",
+      "assets/sfx/zombieDead/death3.mp3",
+      "assets/sfx/zombieDead/death2.mp3",
+    ];
+    int randomSfx = Random().nextInt(SoundFX.length);
+    sfx.setAsset(SoundFX[randomSfx]);
+    sfx.setVolume(.3);
+  }
+
+  AudioPlayer sfx = AudioPlayer();
   late Playerdata pd;
   bool isAttacking = false;
   late Timer attackTimer;
@@ -23,6 +35,8 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
   int health = 2;
   String direction;
   int speed = 0;
+  bool dropBullet = false;
+  bool SFX = true;
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
@@ -72,18 +86,43 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
     );
   }
 
+  //if zombie dies, play this once
+  void addBullet() {
+    if (!dropBullet) {
+      pd.updateBullet();
+      dropBullet = true;
+    }
+  }
+
+  void playSFX() async {
+    if (SFX) {
+      sfx.play();
+
+      sfx.playerStateStream.listen((data) {
+        if (data.processingState == ProcessingState.completed) {
+          sfx.dispose();
+        }
+      });
+
+      SFX = false;
+    }
+  }
+
   @override
   void update(double dt) {
     // TODO: implement update
     super.update(dt);
+
     //controls
     if (health <= 0) {
       isDead = true;
+      playSFX();
     }
     if (isDead) {
       position.x = position.x;
       current = PlayerState.dead;
       Future.delayed(Duration(milliseconds: (11 * 0.15 * 1000).toInt()), () {
+        addBullet();
         removeFromParent();
       });
     } else {

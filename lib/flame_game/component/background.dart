@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:barilan/flame_game/component/player.dart';
-import 'package:barilan/flame_game/world.dart';
+import 'package:barilan/flame_game/component/world.dart';
 import 'package:flame/components.dart';
 import 'package:flame/parallax.dart';
 import 'package:flutter/rendering.dart';
@@ -12,20 +12,56 @@ class Background extends ParallaxComponent with HasWorldReference<Lugar> {
 
   Player player;
 
+  final layer1 = [
+    ParallaxImageData('scenery/scene1/Sky.png'),
+    ParallaxImageData('scenery/scene1/buildings.png'),
+    ParallaxImageData('scenery/scene1/wall2.png'),
+    ParallaxImageData('scenery/scene1/wall1.png'),
+    ParallaxImageData('scenery/scene1/boxes&container.png'),
+    ParallaxImageData('scenery/scene1/wheels&hydrant.png'),
+    ParallaxImageData('scenery/scene1/road&border.png'),
+  ];
+
+  final layer2 = [
+    ParallaxImageData('scenery/scene2/background.png'),
+    ParallaxImageData('scenery/scene2/clouds.png'),
+    ParallaxImageData('scenery/scene2/cliffs.png'),
+    ParallaxImageData('scenery/scene2/trees.png'),
+    ParallaxImageData('scenery/scene2/ground.png'),
+  ];
+
+  final layer3 = [
+    ParallaxImageData('scenery/scene3/Sky.png'),
+    ParallaxImageData('scenery/scene3/back.png'),
+    ParallaxImageData('scenery/scene3/houses3.png'),
+    ParallaxImageData('scenery/scene3/houses1.png'),
+    ParallaxImageData('scenery/scene3/minishop&callbox.png'),
+    ParallaxImageData('scenery/scene3/road&lamps.png'),
+  ];
+
+  final layer4 = [
+    ParallaxImageData('scenery/scene4/sky.png'),
+    ParallaxImageData('scenery/scene4/houses3.png'),
+    ParallaxImageData('scenery/scene4/houses2.png'),
+    ParallaxImageData('scenery/scene4/houses1.png'),
+    ParallaxImageData('scenery/scene4/road.png'),
+    ParallaxImageData('scenery/scene4/crosswalk.png'),
+  ];
+
+  final layer5 = [
+    ParallaxImageData('scenery/scene5/sky.png'),
+    ParallaxImageData('scenery/scene5/houses.png'),
+    ParallaxImageData('scenery/scene5/houses2.png'),
+    ParallaxImageData('scenery/scene5/fountain&bush.png'),
+    ParallaxImageData('scenery/scene5/houses1.png'),
+    ParallaxImageData('scenery/scene5/road.png'),
+  ];
   @override
   Future<void> onLoad() async {
-    final layers = [
-      ParallaxImageData('scenery/background.png'),
-      ParallaxImageData('scenery/clouds.png'),
-      ParallaxImageData('scenery/cliffs.png'),
-      ParallaxImageData('scenery/trees.png'),
-      ParallaxImageData('scenery/ground.png'),
-    ];
-
     final velocityMultiplierDelta = Vector2(2, 0.0);
 
     parallax = await Parallax.load(
-      layers,
+      layer5,
       velocityMultiplierDelta: velocityMultiplierDelta,
       filterQuality: FilterQuality.none,
       repeat: ImageRepeat.repeatX,
@@ -37,11 +73,15 @@ class Background extends ParallaxComponent with HasWorldReference<Lugar> {
   void update(double dt) {
     super.update(dt);
     // Move background based on player's movement
-    if (player.isMoving) {
-      if (player.direction == 'left') {
-        parallax?.baseVelocity.x = player.player_speed.x;
+    if (!player.inBarrier) {
+      if (player.isMoving) {
+        if (player.direction == 'left') {
+          parallax?.baseVelocity.x = player.player_speed.x - 5;
+        } else {
+          parallax?.baseVelocity.x = -player.player_speed.x + 5;
+        }
       } else {
-        parallax?.baseVelocity.x = -player.player_speed.x;
+        parallax?.baseVelocity.x = 0;
       }
     } else {
       parallax?.baseVelocity.x = 0;

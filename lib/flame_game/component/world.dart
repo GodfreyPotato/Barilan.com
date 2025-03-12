@@ -11,7 +11,7 @@ import 'package:flame/game.dart';
 
 class Lugar extends World with HasGameReference<BarilGame> {
   Lugar({required this.player}) {
-    _size = Vector2(1000, 720); // Default world size
+    _size = Vector2(10000, 720); // Default world size
   }
 
   late Player player;
@@ -25,7 +25,7 @@ class Lugar extends World with HasGameReference<BarilGame> {
   }
 
   /// Where the ground is located in the world and things should stop falling.
-  late final double groundLevel = (size.y / 2) - (size.y / 5);
+  late double groundLevel = (size.y / 2) - (size.y / 5);
 
   //runs every time called
   @override
@@ -39,30 +39,32 @@ class Lugar extends World with HasGameReference<BarilGame> {
   @override
   FutureOr<void> onLoad() {
     // TODO: implement onLoad
-    // add(Background(player: player));
-    add(Barrier());
+    
+    add(Barrier(pos: Vector2(size.x, 141)));
+    add(Barrier(pos: Vector2(0 - 400, 141)));
     player.x = size.x / 2;
     add(player);
     //spawns
+
     add(
       SpawnComponent(
         area: Rectangle.fromPoints(
-          Vector2(size.x - 20, groundLevel - 80),
-          Vector2(size.x - 20, groundLevel - 80),
+          Vector2(Random().nextDouble() * size.x, groundLevel - 80),
+          Vector2(Random().nextDouble() * size.x, groundLevel - 80),
         ),
         factory: (_) => Zombie(pd: player.pd, direction: "right"),
         period: 3,
       ),
     );
-    // add(
-    //   SpawnComponent(
-    //     area: Rectangle.fromPoints(
-    //       Vector2(0, groundLevel - 80),
-    //       Vector2(0, groundLevel - 80),
-    //     ),
-    //     factory: (_) => Zombie(pd: player.pd, direction: "left"),
-    //     period: 2,
-    //   ),
-    // );
+    add(
+      SpawnComponent(
+        area: Rectangle.fromPoints(
+          Vector2(Random().nextDouble() * size.x, groundLevel - 80),
+          Vector2(Random().nextDouble() * size.x, groundLevel - 80),
+        ),
+        factory: (_) => Zombie(pd: player.pd, direction: "left"),
+        period: 2,
+      ),
+    );
   }
 }

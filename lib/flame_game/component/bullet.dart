@@ -4,7 +4,7 @@ import 'package:barilan/flame_game/barilGame.dart';
 import 'package:barilan/flame_game/component/player.dart';
 import 'package:barilan/flame_game/component/zombie.dart';
 import 'package:barilan/flame_game/effects/jump_effect.dart';
-import 'package:barilan/flame_game/world.dart';
+import 'package:barilan/flame_game/component/world.dart';
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';

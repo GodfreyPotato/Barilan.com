@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:barilan/flame_game/barilGame.dart';
 import 'package:barilan/flame_game/component/bullet.dart';
-import 'package:barilan/flame_game/controls.dart';
+import 'package:barilan/flame_game/component/controls.dart';
 import 'package:barilan/flame_game/effects/jump_effect.dart';
-import 'package:barilan/flame_game/world.dart';
+import 'package:barilan/flame_game/component/world.dart';
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -27,6 +27,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   String direction = "";
   bool isFiring = false;
   late Timer fireToIdle;
+  bool inBarrier = false;
 
   @override
   Future<void> onLoad() async {
@@ -113,6 +114,13 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
     //dead
     if (pd.health <= 0) {
       removeFromParent();
+      game.camera.viewport.children.whereType<PositionComponent>().forEach((
+        button,
+      ) {
+        button.removeFromParent();
+      });
+
+      game.overlays.remove('backBut');
       game.overlays.add('gameOver');
     }
     //pag nag jump
@@ -170,16 +178,19 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   }
 
   void fire() async {
-    if (!inAir) {
-      isFiring = true;
-      position.x = position.x;
-      var bullet = Bullet(
-        direction: scale.x == -1 ? 'right' : 'left',
-        pos: Vector2(position.x, position.y - 20),
-      );
+    if (pd.bullet > 0) {
+      if (!inAir) {
+        isFiring = true;
+        position.x = position.x;
+        var bullet = Bullet(
+          direction: scale.x == -1 ? 'right' : 'left',
+          pos: Vector2(position.x, position.y - 20),
+        );
 
-      world.add(bullet);
-      fireToIdle.start();
+        world.add(bullet);
+        fireToIdle.start();
+        pd.fireBullet();
+      }
     }
   }
 
