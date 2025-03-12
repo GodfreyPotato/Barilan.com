@@ -19,7 +19,7 @@ class Baril extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => Playerdata(),
-      child: MaterialApp(home: HomeScreen()),
+      child: MaterialApp(home: HomeScreen(), debugShowCheckedModeBanner: false),
     );
   }
 }
