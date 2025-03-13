@@ -7,12 +7,14 @@ import 'package:barilan/flame_game/component/player.dart';
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:just_audio/just_audio.dart' as ja;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class GameScreen extends StatefulWidget {
-  GameScreen({super.key, required this.pd});
+  GameScreen({super.key, required this.pd, required this.bgMusic});
   Playerdata pd;
+  ja.AudioPlayer bgMusic;
   @override
   State<GameScreen> createState() => _GameScreenState();
 }
@@ -58,8 +60,18 @@ class _GameScreenState extends State<GameScreen> {
                           child: Icon(Icons.restart_alt),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
-                          child: Icon(Icons.music_off),
+                          onPressed: () {
+                            if (widget.bgMusic.playing) {
+                              widget.bgMusic.pause();
+                            } else {
+                              widget.bgMusic.play();
+                            }
+                          },
+                          child: Icon(
+                            widget.bgMusic.playing
+                                ? Icons.music_note
+                                : Icons.music_off,
+                          ),
                         ),
                       ],
                     ),
@@ -133,6 +145,7 @@ class _GameScreenState extends State<GameScreen> {
                                           context,
                                           listen: false,
                                         ),
+                                        bgMusic: widget.bgMusic,
                                       ),
                                 ),
                               );
