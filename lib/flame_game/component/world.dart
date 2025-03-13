@@ -9,7 +9,6 @@ import 'package:barilan/flame_game/component/zombie2.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
-import 'package:flame_audio/flame_audio.dart';
 
 class Lugar extends World with HasGameReference<BarilGame> {
   Lugar({required this.player}) {
@@ -55,7 +54,7 @@ class Lugar extends World with HasGameReference<BarilGame> {
           Vector2(Random().nextDouble() * size.x, groundLevel - 80),
         ),
         factory: (_) => Zombie(pd: player.pd, direction: "right"),
-        period: 5,
+        period: 1,
       ),
     );
     add(
@@ -65,7 +64,7 @@ class Lugar extends World with HasGameReference<BarilGame> {
           Vector2(Random().nextDouble() * size.x, groundLevel - 80),
         ),
         factory: (_) => Zombie(pd: player.pd, direction: "left"),
-        period: 5,
+        period: 1,
       ),
     );
   }
@@ -76,8 +75,7 @@ class Lugar extends World with HasGameReference<BarilGame> {
       Future.delayed(Duration(seconds: 3), () {
         game.overlays.remove("warning");
       });
-
-      FlameAudio.play("warning.mp3");
+      player.pd.warningSFX();
       add(
         SpawnComponent(
           area: Rectangle.fromPoints(

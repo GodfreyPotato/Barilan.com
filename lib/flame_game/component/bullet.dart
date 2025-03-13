@@ -4,6 +4,7 @@ import 'package:barilan/flame_game/barilGame.dart';
 import 'package:barilan/flame_game/component/zombie.dart';
 import 'package:barilan/flame_game/component/zombie2.dart';
 import 'package:barilan/flame_game/component/world.dart';
+import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
@@ -23,13 +24,21 @@ class Bullet extends SpriteComponent
       );
   String direction;
   Vector2 pos;
+
   late Vector2 startingPosition;
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
+
     startingPosition = pos;
     sprite = await Sprite.load('cardo/gunshot.png');
     add(CircleHitbox());
+  }
+
+  @override
+  void onRemove() {
+    // TODO: implement onRemove
+    super.onRemove();
   }
 
   @override

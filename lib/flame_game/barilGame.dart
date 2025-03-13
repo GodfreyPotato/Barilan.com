@@ -8,7 +8,6 @@ import 'package:barilan/flame_game/component/world.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame_audio/flame_audio.dart';
 
 class BarilGame extends FlameGame<Lugar> with HasCollisionDetection {
   BarilGame({required this.player, required this.rand})
@@ -29,7 +28,7 @@ class BarilGame extends FlameGame<Lugar> with HasCollisionDetection {
   Player player;
   @override
   FutureOr<void> onLoad() async {
-    await FlameAudio.audioCache.loadAll(["addhealth.mp3","death1.mp3","death2.mp3","death3.mp3","death4.mp3","gunshot.mp3","manananggalWarning.mp3","warning.mp3"]);
+    // await FlameAudio.audioCache.loadAll(["addhealth.mp3","death1.mp3","death2.mp3","death3.mp3","death4.mp3","gunshot.mp3","manananggalWarning.mp3","warning.mp3"]);
     if (rand == 0) {
     } else if (rand == 2) {
       world.groundLevel += 80;

@@ -7,7 +7,6 @@ import 'package:barilan/flame_game/component/world.dart';
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
 
 //player state = ung mga state ng sprite like walking, flying, etc.
 class Zombie2 extends SpriteAnimationGroupComponent<PlayerState>
@@ -16,10 +15,7 @@ class Zombie2 extends SpriteAnimationGroupComponent<PlayerState>
         HasWorldReference<Lugar>,
         HasGameReference<BarilGame> {
   Zombie2({required this.pd, required this.direction})
-    : super(size: Vector2.all(300), anchor: Anchor.center, priority: 1) {
-    FlameAudio.audioCache.load("death4.mp3");
-    FlameAudio.play("manananggalWarning.mp3");
-  }
+    : super(size: Vector2.all(300), anchor: Anchor.center, priority: 1) {}
 
   late Playerdata pd;
   bool isAttacking = false;
@@ -30,11 +26,10 @@ class Zombie2 extends SpriteAnimationGroupComponent<PlayerState>
   int speed = 0;
   bool dropBullet = false;
   bool SFX = true;
-  AudioPlayer ap = AudioPlayer();
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
-
+    pd.manananggalWarningSFX();
     if (direction == "left") {
       scale.x = 1;
       speed = -50;
@@ -85,7 +80,7 @@ class Zombie2 extends SpriteAnimationGroupComponent<PlayerState>
   void onRemove() async {
     // TODO: implement onRemove
     attackTimer.stop();
-    await ap.stop();
+
     super.onRemove();
   }
 
@@ -93,17 +88,14 @@ class Zombie2 extends SpriteAnimationGroupComponent<PlayerState>
   void addBullet() {
     if (!dropBullet) {
       pd.updateBullet();
+
       dropBullet = true;
     }
   }
 
   void playSFX() async {
     if (SFX) {
-      ap = await FlameAudio.play("death4.mp3");
-      ap.onPlayerComplete.listen((_) async {
-        await ap.stop();
-        print("SFX Finished Playing");
-      });
+      pd.death2SFX();
       SFX = false;
     }
   }
@@ -154,6 +146,18 @@ class Zombie2 extends SpriteAnimationGroupComponent<PlayerState>
     // TODO: implement onCollision
     super.onCollisionStart(intersectionPoints, other);
 
+    if (!isDead) {
+      if (other is Player) {
+        current = PlayerState.attacking;
+        isAttacking = true;
+      }
+    }
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    // TODO: implement onCollision
+    super.onCollision(intersectionPoints, other);
     if (!isDead) {
       if (other is Player) {
         current = PlayerState.attacking;

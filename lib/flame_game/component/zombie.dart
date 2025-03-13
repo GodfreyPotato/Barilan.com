@@ -7,7 +7,6 @@ import 'package:barilan/flame_game/component/world.dart';
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
 
 //player state = ung mga state ng sprite like walking, flying, etc.
 class Zombie extends SpriteAnimationGroupComponent<PlayerState>
@@ -29,7 +28,6 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
   int speed = 0;
   bool dropBullet = false;
   bool SFX = true;
-  AudioPlayer ap = AudioPlayer();
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
@@ -83,7 +81,6 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
   void onRemove() async {
     // TODO: implement onRemove
     attackTimer.stop();
-    await ap.stop();
     super.onRemove();
   }
 
@@ -97,11 +94,7 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
 
   void playSFX() async {
     if (SFX) {
-      ap = await FlameAudio.play(soundFX[Random().nextInt(soundFX.length)]);
-      ap.onPlayerComplete.listen((_) async {
-        await ap.stop();
-        print("SFX Finished Playing");
-      });
+      pd.death1tSFX();
       SFX = false;
     }
   }

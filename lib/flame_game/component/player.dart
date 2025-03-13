@@ -8,7 +8,6 @@ import 'package:barilan/flame_game/component/world.dart';
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
 
 //player state = ung mga state ng sprite like walking, flying, etc.
 class Player extends SpriteAnimationGroupComponent<PlayerState>
@@ -33,7 +32,6 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
-
     animations = {
       //running
       PlayerState.running: await game.loadSpriteAnimation(
@@ -98,6 +96,12 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
     _lastPosition.setFrom(position);
 
     add(RectangleHitbox());
+  }
+
+  @override
+  void onRemove() {
+    // TODO: implement onRemove
+    super.onRemove();
   }
 
   @override
@@ -180,14 +184,15 @@ class Player extends SpriteAnimationGroupComponent<PlayerState>
   void fire() async {
     if (pd.bullet > 0) {
       if (!inAir) {
-        FlameAudio.play("gunshot.mp3");
+        // FlameAudio.play("gunshot.mp3");
+
         isFiring = true;
         position.x = position.x;
         var bullet = Bullet(
           direction: scale.x == -1 ? 'right' : 'left',
           pos: Vector2(position.x, position.y - 20),
         );
-
+        pd.gunshotSFX();
         world.add(bullet);
         fireToIdle.start();
         pd.fireBullet();

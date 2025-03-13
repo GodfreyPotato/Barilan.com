@@ -12,9 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  AudioPlayer bgMusic = AudioPlayer();
   late bool isLoaded = false;
-  late ConcatenatingAudioSource playList;
   void loadEverything() async {
     await widget.pd.getHighScore();
     isLoaded = true;
@@ -24,17 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    playList = ConcatenatingAudioSource(
-      children: [
-        AudioSource.asset("assets/musics/backgroundmusic.mp3"),
-        AudioSource.asset("assets/musics/backgroundmusic.mp3"),
-      ],
-    );
-    bgMusic.setAudioSource(playList);
-
-    bgMusic.playingStream.listen((data) {
-      setState(() {});
-    });
     loadEverything();
   }
 
@@ -72,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       context,
                                       listen: false,
                                     ),
-                                    bgMusic: bgMusic,
                                   ),
                             ),
                           );
@@ -81,14 +67,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          if (bgMusic.playing) {
-                            bgMusic.pause();
+                          if (Provider.of<Playerdata>(
+                            context,
+                            listen: false,
+                          ).bgMusic.playing) {
+                            Provider.of<Playerdata>(
+                              context,
+                              listen: false,
+                            ).bgMusic.pause();
                           } else {
-                            bgMusic.play();
+                            Provider.of<Playerdata>(
+                              context,
+                              listen: false,
+                            ).bgMusic.play();
                           }
                         },
                         child: Icon(
-                          bgMusic.playing ? Icons.music_note : Icons.music_off,
+                          Provider.of<Playerdata>(
+                                context,
+                                listen: true,
+                              ).bgMusic.playing
+                              ? Icons.music_note
+                              : Icons.music_off,
                         ),
                       ),
                     ],

@@ -6,15 +6,13 @@ import 'package:barilan/flame_game/component/player.dart';
 
 import 'package:barilan/model/playerdata.dart';
 import 'package:flame/game.dart';
-import 'package:flame_audio/flame_audio.dart';
-import 'package:just_audio/just_audio.dart' as ja;
+import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class GameScreen extends StatefulWidget {
-  GameScreen({super.key, required this.pd, required this.bgMusic});
+  GameScreen({super.key, required this.pd});
   Playerdata pd;
-  ja.AudioPlayer bgMusic;
   @override
   State<GameScreen> createState() => _GameScreenState();
 }
@@ -23,7 +21,6 @@ class _GameScreenState extends State<GameScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
-    FlameAudio.audioCache.clearAll();
     super.dispose();
   }
 
@@ -61,14 +58,26 @@ class _GameScreenState extends State<GameScreen> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            if (widget.bgMusic.playing) {
-                              widget.bgMusic.pause();
+                            if (Provider.of<Playerdata>(
+                              context,
+                              listen: false,
+                            ).bgMusic.playing) {
+                              Provider.of<Playerdata>(
+                                context,
+                                listen: false,
+                              ).bgMusic.pause();
                             } else {
-                              widget.bgMusic.play();
+                              Provider.of<Playerdata>(
+                                context,
+                                listen: false,
+                              ).bgMusic.play();
                             }
                           },
                           child: Icon(
-                            widget.bgMusic.playing
+                            Provider.of<Playerdata>(
+                                  context,
+                                  listen: false,
+                                ).bgMusic.playing
                                 ? Icons.music_note
                                 : Icons.music_off,
                           ),
@@ -145,7 +154,7 @@ class _GameScreenState extends State<GameScreen> {
                                           context,
                                           listen: false,
                                         ),
-                                        bgMusic: widget.bgMusic,
+                                        
                                       ),
                                 ),
                               );
