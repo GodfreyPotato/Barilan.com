@@ -22,12 +22,14 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
   late Playerdata pd;
   bool isAttacking = false;
   late Timer attackTimer;
+  late Timer deadTimer;
   bool isDead = false;
   int health = 2;
   String direction;
   int speed = 0;
   bool dropBullet = false;
   bool SFX = true;
+  AudioPlayer ap = AudioPlayer();
   @override
   Future<void> onLoad() async {
     // TODO: implement onLoad
@@ -77,6 +79,14 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
     );
   }
 
+  @override
+  void onRemove() async {
+    // TODO: implement onRemove
+    attackTimer.stop();
+    await ap.stop();
+    super.onRemove();
+  }
+
   //if zombie dies, play this once
   void addBullet() {
     if (!dropBullet) {
@@ -87,7 +97,11 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
 
   void playSFX() async {
     if (SFX) {
-      FlameAudio.play(soundFX[Random().nextInt(soundFX.length)]);
+      ap = await FlameAudio.play(soundFX[Random().nextInt(soundFX.length)]);
+      ap.onPlayerComplete.listen((_) async {
+        await ap.stop();
+        print("SFX Finished Playing");
+      });
       SFX = false;
     }
   }
@@ -103,7 +117,6 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
       playSFX();
     }
     if (isDead) {
-      position.x = position.x;
       current = PlayerState.dead;
       Future.delayed(Duration(milliseconds: (11 * 0.15 * 1000).toInt()), () {
         addBullet();
@@ -129,7 +142,6 @@ class Zombie extends SpriteAnimationGroupComponent<PlayerState>
         (position.x > world.size.x && direction == "left")) {
       removeFromParent();
     }
-    print("Position of zombies ${position} vs game size ${game.size}");
   }
 
   @override

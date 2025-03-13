@@ -73,18 +73,14 @@ class Background extends ParallaxComponent with HasWorldReference<Lugar> {
 
     if (player.isMoving && !player.isBitten) {
       // Parallax moves only if the player is NOT in a barrier
-      if (!player.inBarrier) {
-        if (!player.inAir) {
-          if (player.direction == 'left') {
-            parallax?.baseVelocity.x = player.player_speed.x - 5;
-          } else {
-            parallax?.baseVelocity.x = -player.player_speed.x + 5;
-          }
-        } else {
-          parallax?.baseVelocity.x = 0;
-        }
-      } else {
+      if (player.inBarrier) {
         parallax?.baseVelocity.x = 0;
+      } else {
+        if (player.direction == 'left') {
+          parallax?.baseVelocity.x = player.player_speed.x - 5;
+        } else {
+          parallax?.baseVelocity.x = -player.player_speed.x + 5;
+        }
       }
     } else {
       parallax?.baseVelocity.x = 0;
