@@ -70,112 +70,148 @@ class _GameScreenState extends State<GameScreen> {
               (context, game) => Center(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(13),
+                    color: Colors.yellow.shade500,
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(width: 3, color: Colors.black87),
                   ),
-                  width: 200,
                   height: 200,
+                  width: 200,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset("assets/bg/gameOver2.png"),
-                      Text(
-                        "Score: ${widget.pd.currentScore}",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      Row(
-                        spacing: 12,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Provider.of<Playerdata>(
-                                context,
-                                listen: false,
-                              ).reset();
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0),
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: 80,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.white60,
-                                  ),
-                                  color: Colors.deepPurple,
-                                  borderRadius: BorderRadius.circular(13),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(1.0),
-                                  child: Text(
-                                    "Home",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                          Image.asset(
+                            "assets/bg/warning.png",
+                            height: 75,
+                            width: 75,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => GameScreen(
-                                        pd: Provider.of<Playerdata>(
-                                          context,
-                                          listen: false,
-                                        ),
-                                      ),
-                                ),
-                              );
-                              Provider.of<Playerdata>(
-                                context,
-                                listen: false,
-                              ).reset();
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 0.0),
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: 80,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1,
-                                    color: Colors.white60,
-                                  ),
-                                  color: Colors.deepPurple,
-                                  borderRadius: BorderRadius.circular(13),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(1.0),
-                                  child: Text(
-                                    "Try Again",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                          Text(
+                            "Warning!",
+                            style: TextStyle(
+                              color: Colors.red.shade700,
+                              fontSize: 24,
                             ),
                           ),
                         ],
                       ),
+                      Text(
+                        textAlign: TextAlign.center,
+                        "Lalabas na ang manananggal!",
+                        style: TextStyle(
+                          color: Colors.red.shade700,
+                          fontSize: 24,
+                        ),
+                      ),
                     ],
                   ),
                 ),
+                // Container(
+                //   width: 200,
+                //   height: 200,
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //     children: [
+                //       Image.asset("assets/bg/gameOver2.png"),
+                //       Text(
+                //         "Score: ${widget.pd.currentScore}",
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //           fontSize: 16,
+                //           fontWeight: FontWeight.w800,
+                //         ),
+                //       ),
+                //       Row(
+                //         spacing: 12,
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           GestureDetector(
+                //             onTap: () {
+                //               Navigator.of(context).pop();
+                //               Provider.of<Playerdata>(
+                //                 context,
+                //                 listen: false,
+                //               ).reset();
+                //             },
+                //             child: Padding(
+                //               padding: const EdgeInsets.only(bottom: 0.0),
+                //               child: Container(
+                //                 alignment: Alignment.center,
+                //                 width: 80,
+                //                 height: 30,
+                //                 decoration: BoxDecoration(
+                //                   border: Border.all(
+                //                     width: 1,
+                //                     color: Colors.white60,
+                //                   ),
+                //                   color: Colors.deepPurple,
+                //                   borderRadius: BorderRadius.circular(13),
+                //                 ),
+                //                 child: Padding(
+                //                   padding: const EdgeInsets.all(1.0),
+                //                   child: Text(
+                //                     "Home",
+                //                     style: TextStyle(
+                //                       color: Colors.white,
+                //                       fontWeight: FontWeight.w700,
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //           GestureDetector(
+                //             onTap: () {
+                //               Navigator.of(context).pop();
+                //               Navigator.of(context).push(
+                //                 MaterialPageRoute(
+                //                   builder:
+                //                       (context) => GameScreen(
+                //                         pd: Provider.of<Playerdata>(
+                //                           context,
+                //                           listen: false,
+                //                         ),
+                //                       ),
+                //                 ),
+                //               );
+                //               Provider.of<Playerdata>(
+                //                 context,
+                //                 listen: false,
+                //               ).reset();
+                //             },
+                //             child: Padding(
+                //               padding: const EdgeInsets.only(bottom: 0.0),
+                //               child: Container(
+                //                 alignment: Alignment.center,
+                //                 width: 80,
+                //                 height: 30,
+                //                 decoration: BoxDecoration(
+                //                   border: Border.all(
+                //                     width: 1,
+                //                     color: Colors.white60,
+                //                   ),
+                //                   color: Colors.deepPurple,
+                //                   borderRadius: BorderRadius.circular(13),
+                //                 ),
+                //                 child: Padding(
+                //                   padding: const EdgeInsets.all(1.0),
+                //                   child: Text(
+                //                     "Try Again",
+                //                     style: TextStyle(
+                //                       color: Colors.white,
+                //                       fontWeight: FontWeight.w700,
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ),
           "warning":
               (context, game) => Center(
@@ -183,9 +219,14 @@ class _GameScreenState extends State<GameScreen> {
                   height: 200,
                   width: 200,
                   color: Colors.red,
-                  child: Text(
-                    "Warning! Lalabas na ang manananggal!",
-                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  child: Column(
+                    children: [
+                      Image.asset("assets/bg/warning.png"),
+                      Text(
+                        "Warning! Lalabas na ang manananggal!",
+                        style: TextStyle(color: Colors.white, fontSize: 30),
+                      ),
+                    ],
                   ),
                 ),
               ),
