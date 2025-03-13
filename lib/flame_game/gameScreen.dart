@@ -69,9 +69,6 @@ class _GameScreenState extends State<GameScreen> {
           'gameOver':
               (context, game) => Center(
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(13),
-                  ),
                   width: 200,
                   height: 200,
                   child: Column(
@@ -180,12 +177,42 @@ class _GameScreenState extends State<GameScreen> {
           "warning":
               (context, game) => Center(
                 child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.yellow.shade500,
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(width: 3, color: Colors.black87),
+                  ),
                   height: 200,
                   width: 200,
-                  color: Colors.red,
-                  child: Text(
-                    "Warning! Lalabas na ang manananggal!",
-                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Image.asset(
+                            "assets/bg/warning.png",
+                            height: 75,
+                            width: 75,
+                          ),
+                          Text(
+                            "Warning!",
+                            style: TextStyle(
+                              color: Colors.red.shade700,
+                              fontSize: 24,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        textAlign: TextAlign.center,
+                        "Lalabas na ang manananggal!",
+                        style: TextStyle(
+                          color: Colors.red.shade700,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
