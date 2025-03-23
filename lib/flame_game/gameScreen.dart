@@ -50,36 +50,44 @@ class _GameScreenState extends State<GameScreen> {
                               listen: false,
                             ).reset();
                           },
-                          child: Icon(Icons.home),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: Icon(Icons.restart_alt),
+                          child: Icon(Icons.home, color: Colors.black),
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            if (Provider.of<Playerdata>(
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => GameScreen(
+                                      pd: Provider.of<Playerdata>(
+                                        context,
+                                        listen: false,
+                                      ),
+                                    ),
+                              ),
+                            );
+                            Provider.of<Playerdata>(
                               context,
                               listen: false,
-                            ).bgMusic.playing) {
-                              Provider.of<Playerdata>(
-                                context,
-                                listen: false,
-                              ).bgMusic.pause();
-                            } else {
-                              Provider.of<Playerdata>(
-                                context,
-                                listen: false,
-                              ).bgMusic.play();
-                            }
+                            ).reset();
+                          },
+                          child: Icon(Icons.restart_alt, color: Colors.black),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Provider.of<Playerdata>(
+                              context,
+                              listen: false,
+                            ).pauseAudio();
                           },
                           child: Icon(
                             Provider.of<Playerdata>(
                                   context,
-                                  listen: false,
+                                  listen: true,
                                 ).bgMusic.playing
                                 ? Icons.music_note
                                 : Icons.music_off,
+                            color: Colors.black,
                           ),
                         ),
                       ],
@@ -97,7 +105,7 @@ class _GameScreenState extends State<GameScreen> {
                     children: [
                       Image.asset("assets/bg/gameOver2.png"),
                       Text(
-                        "Score: ${widget.pd.currentScore}",
+                        "Nakuhang Puntos: ${widget.pd.currentScore}",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -133,7 +141,7 @@ class _GameScreenState extends State<GameScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(1.0),
                                   child: Text(
-                                    "Home",
+                                    "Bumalik",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700,
@@ -154,7 +162,6 @@ class _GameScreenState extends State<GameScreen> {
                                           context,
                                           listen: false,
                                         ),
-                                        
                                       ),
                                 ),
                               );
@@ -180,7 +187,7 @@ class _GameScreenState extends State<GameScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(1.0),
                                   child: Text(
-                                    "Try Again",
+                                    "Ulitin",
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700,
@@ -218,7 +225,7 @@ class _GameScreenState extends State<GameScreen> {
                             width: 75,
                           ),
                           Text(
-                            "Warning!",
+                            "Paalala!",
                             style: TextStyle(
                               color: Colors.red.shade700,
                               fontSize: 24,
@@ -228,7 +235,7 @@ class _GameScreenState extends State<GameScreen> {
                       ),
                       Text(
                         textAlign: TextAlign.center,
-                        "Lalabas na ang manananggal!",
+                        "Lalabas na ang mga bruha!",
                         style: TextStyle(
                           color: Colors.red.shade700,
                           fontSize: 24,

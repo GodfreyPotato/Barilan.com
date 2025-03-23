@@ -5,8 +5,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Playerdata extends ChangeNotifier {
-  int health = 1000;
-  int bullet = 1000;
+  int health = 5;
+  int bullet = 10;
   late SharedPreferences prefs;
   int currentScore = 0;
   int highscore = 0;
@@ -24,6 +24,15 @@ class Playerdata extends ChangeNotifier {
     );
     bgMusic.setAudioSource(playList);
     bgMusic.play();
+  }
+
+  void pauseAudio() {
+    if (bgMusic.playing) {
+      bgMusic.pause();
+    } else {
+      bgMusic.play();
+    }
+    notifyListeners();
   }
 
   void warningSFX() async {

@@ -54,7 +54,7 @@ class Lugar extends World with HasGameReference<BarilGame> {
           Vector2(Random().nextDouble() * size.x, groundLevel - 80),
         ),
         factory: (_) => Zombie(pd: player.pd, direction: "right"),
-        period: 1,
+        period: 5,
       ),
     );
     add(
@@ -64,7 +64,7 @@ class Lugar extends World with HasGameReference<BarilGame> {
           Vector2(Random().nextDouble() * size.x, groundLevel - 80),
         ),
         factory: (_) => Zombie(pd: player.pd, direction: "left"),
-        period: 1,
+        period: 5,
       ),
     );
   }

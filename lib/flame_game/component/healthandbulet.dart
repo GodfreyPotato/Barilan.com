@@ -17,7 +17,7 @@ class HealthAndBullet extends StatelessWidget {
               spacing: 8,
               children: [
                 Text(
-                  "Score: ${Provider.of<Playerdata>(context, listen: false).currentScore}",
+                  "Puntos: ${Provider.of<Playerdata>(context, listen: false).currentScore}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -34,7 +34,7 @@ class HealthAndBullet extends StatelessWidget {
                           : List.empty(),
                 ),
                 Text(
-                  "Bullet: ${pd.bullet}",
+                  "Bala: ${pd.bullet}",
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ],

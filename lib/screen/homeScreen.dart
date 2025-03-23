@@ -37,19 +37,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/bg/homebg.png'),
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.fill,
                   ),
                 ),
                 child: Center(
                   child: Column(
+                    spacing: 15,
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        'Pinaka mataas na iskor: ${widget.pd.highscore}',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        'Pinaka mataas na puntos: ${widget.pd.highscore}',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green[700],
+                          minimumSize: Size(200, 50),
+                        ),
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -63,24 +73,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         },
-                        child: Text("Simulan"),
+                        child: Text(
+                          "Simulan",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          if (Provider.of<Playerdata>(
+                          Provider.of<Playerdata>(
                             context,
                             listen: false,
-                          ).bgMusic.playing) {
-                            Provider.of<Playerdata>(
-                              context,
-                              listen: false,
-                            ).bgMusic.pause();
-                          } else {
-                            Provider.of<Playerdata>(
-                              context,
-                              listen: false,
-                            ).bgMusic.play();
-                          }
+                          ).pauseAudio();
                         },
                         child: Icon(
                           Provider.of<Playerdata>(
@@ -89,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ).bgMusic.playing
                               ? Icons.music_note
                               : Icons.music_off,
+                          color: Colors.black,
                         ),
                       ),
                     ],
